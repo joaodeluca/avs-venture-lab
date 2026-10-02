@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "data_class": "SIMULATED",
+  "customer_id": "demo_company",
+  "complete": true,
+  "events": [
+    {
+      "event_id": "api_01",
+      "meter_id": "api_calls",
+      "unit": "call",
+      "kind": "usage",
+      "quantity": "1000",
+      "occurred_at": "2026-09-10T10:00:00Z",
+      "received_at": "2026-09-10T10:01:00Z",
+      "reverses": null
+    },
+    {
+      "event_id": "api_02",
+      "meter_id": "api_calls",
+      "unit": "call",
+      "kind": "usage",
+      "quantity": "250",
+      "occurred_at": "2026-09-11T10:00:00Z",
+      "received_at": "2026-09-11T10:01:00Z",
+      "reverses": null
+    },
+    {
+      "event_id": "refund_01",
+      "meter_id": "api_calls",
+      "unit": "call",
+      "kind": "refund",
+      "quantity": "50",
+      "occurred_at": "2026-09-12T10:00:00Z",
+      "received_at": "2026-09-12T10:01:00Z",
+      "reverses": "api_02"
+    },
+    {
+      "event_id": "storage_01",
+      "meter_id": "storage",
+      "unit": "GB_day",
+      "kind": "usage",
+      "quantity": "500",
+      "occurred_at": "2026-09-10T10:00:00Z",
+      "received_at": "2026-09-10T10:01:00Z",
+      "reverses": null
+    }
+  ]
+}

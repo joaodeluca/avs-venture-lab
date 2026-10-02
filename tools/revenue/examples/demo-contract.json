@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "data_class": "SIMULATED",
+  "customer_id": "demo_company",
+  "currency": "BRL",
+  "period_start": "2026-09-01T00:00:00Z",
+  "period_end": "2026-10-01T00:00:00Z",
+  "invoice_cutoff": "2026-10-02T00:00:00Z",
+  "pricing": "linear",
+  "rounding": "meter_total_half_up",
+  "meters": [
+    {
+      "meter_id": "api_calls",
+      "unit": "call",
+      "unit_price": "0.03"
+    },
+    {
+      "meter_id": "storage",
+      "unit": "GB_day",
+      "unit_price": "0.006"
+    }
+  ]
+}

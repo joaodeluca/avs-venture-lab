@@ -1,0 +1,10 @@
+{
+  "schema": "covenant-synthetic-facts-v1",
+  "source_id": "SYN-AURORA-POLICY-v1",
+  "synthetic": true,
+  "facts": {
+    "delivery": "Entrega em até 4 dias úteis após a confirmação do pagamento.",
+    "returns": "Devolução em até 7 dias corridos após o recebimento.",
+    "support": "Atendimento de segunda a sexta, das 9h às 17h."
+  }
+}

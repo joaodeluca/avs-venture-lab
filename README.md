@@ -6,10 +6,10 @@ Five free local evidence utilities by João de Luca, built with AI assistance. O
 
 | Tool | Run / output | Boundaries |
 |---|---|---|
-| POC / TraceBid | `python3 tools/poc/run.py --dossier tools/poc/sample-dossier.json --out my-report` → HTML/JSON/CSV | Text/source hashes only; no system test or official approval. |
+| POC / TraceBid — browser workspace + Python | `python3 tools/poc/run.py --dossier tools/poc/sample-dossier.json --out my-report` → HTML/JSON/CSV | Text/source hashes only; no system test or official approval. |
 | Catalog | Browser comparison at tools/catalog; downloadable Python renderer | Supplied facts/URLs are not authenticated. No substitution/merge approval. |
-| Linear billing | Python delivery adapter, templates and instructions at tools/revenue/package | Constant unit prices only; local normalized exports. No invoice correction/collection. |
-| Covenant | Static browser diagnostic at tools/covenant | Declared observations, not an independent oracle. Receipt alone is insufficient. |
+| Linear billing | Browser import/reconciliation/reports; Python adapter at tools/revenue/package | Constant unit prices only; local normalized exports. No invoice correction/collection. |
+| Covenant | Real finite local FAQ producer/readback at tools/covenant/execution; browser results + diagnostic | Separate readback ignores worker receipt. Trusted local synthetic task/filesystem; no authenticated remote oracle. |
 | ExitForge | `python3 aggregate.py examples/input.json` inside the downloaded package | One small object append/tag example; not a universal converter or full n8n equivalence. |
 
 Open `index.html` through a static server (`python3 -m http.server 8773`) or use GitHub Pages after a successful deployment. Browser tools process input in memory, no app analytics/persistence/uploads; local Python runs on your own machine. Optional ExitForge HTTP example makes only explicitly supplied public GET requests. Hosting providers log requests under their own policy.
@@ -35,3 +35,11 @@ Only a pertinent independent response is an enquiry. Publication, repository vis
 ## Attribution
 
 TraceBid uses only short anchors and original plans from historical SEFAZ/MS POC materials; not an active procurement or affiliation. Catalog contains selected facts and source URLs for eight Phoenix Contact items, not upstream documents/images or a Brazilian inventory feed. ExitForge references c4snipes/n8n-transpiler commit b996ed54e992700c837c2ae579a893a2c34ce3f7; no upstream source is redistributed or affiliation claimed. Read package attribution/limitations.
+
+## Concrete browser paths
+
+- [TraceBid workspace](https://joaodeluca.github.io/avs-venture-lab/tools/poc/workspace.html): create a plan, link local file hashes, validate, export JSON/CSV. Status is declared, not authenticated execution.
+- [Linear billing](https://joaodeluca.github.io/avs-venture-lab/tools/revenue/): normalized files, exact decimals, incomplete/ambiguous inputs refused, local report downloads.
+- [Covenant actual file](https://joaodeluca.github.io/avs-venture-lab/tools/covenant/execution.html): a saved executed synthetic FAQ, actual readback and adverse filesystem controls. Download Python to run another controlled task. Producer example is deterministic, not a remote AI.
+
+Five separate product descriptions live in solutions/. Product clarity and finite tests are preparation, not proof of market or companies operating.

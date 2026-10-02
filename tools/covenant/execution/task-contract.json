@@ -1,0 +1,21 @@
+{
+  "schema": "covenant-faq-contract-v1",
+  "task_id": "SYN-FAQ-AURORA-001",
+  "artifact_file": "faq.json",
+  "source_file": "synthetic-source.json",
+  "source_sha256": "557152b3c7777369ddef3f55464ca5d5c718c4a0fbf4bf8eb8a889fbea0dab32",
+  "questions": [
+    {
+      "id": "delivery",
+      "question": "Qual é o prazo de entrega?"
+    },
+    {
+      "id": "returns",
+      "question": "Qual é o prazo para devolução?"
+    },
+    {
+      "id": "support",
+      "question": "Qual é o horário de atendimento?"
+    }
+  ]
+}

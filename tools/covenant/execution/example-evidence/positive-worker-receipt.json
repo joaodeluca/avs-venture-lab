@@ -1,0 +1,6 @@
+{
+  "task_id": "SYN-FAQ-AURORA-001",
+  "claim": "done",
+  "role": "UNTRUSTED_WORKER_CLAIM",
+  "artifact_file": "faq.json"
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "covenant-faq-artifact-v1",
+  "task_id": "SYN-FAQ-AURORA-001",
+  "run_token": "87cbf87a21429ae14663c8ac25828dbb2d11d38109970c4d",
+  "source_sha256": "557152b3c7777369ddef3f55464ca5d5c718c4a0fbf4bf8eb8a889fbea0dab32",
+  "title": "FAQ — Loja Aurora Fictícia",
+  "answers": [
+    {
+      "id": "delivery",
+      "question": "Qual é o prazo de entrega?",
+      "answer": "Entrega em até 4 dias úteis após a confirmação do pagamento."
+    },
+    {
+      "id": "returns",
+      "question": "Qual é o prazo para devolução?",
+      "answer": "Devolução em até 7 dias corridos após o recebimento."
+    },
+    {
+      "id": "support",
+      "question": "Qual é o horário de atendimento?",
+      "answer": "Atendimento de segunda a sexta, das 9h às 17h."
+    }
+  ]
+}

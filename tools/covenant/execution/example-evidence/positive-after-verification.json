@@ -1,0 +1,68 @@
+{
+  "schema": "covenant-readback-v1",
+  "mode": "CONTROLLED_SYNTHETIC_LOCAL_LAB",
+  "outcome": "LOCAL_ARTIFACT_MATCH",
+  "checks": [
+    {
+      "name": "contract_and_reference_hashes",
+      "passed": true
+    },
+    {
+      "name": "bounded_regular_file_json",
+      "passed": true
+    },
+    {
+      "name": "schema",
+      "passed": true
+    },
+    {
+      "name": "task_and_run_binding",
+      "passed": true
+    },
+    {
+      "name": "reference_source_binding",
+      "passed": true
+    },
+    {
+      "name": "fresh_in_run_window",
+      "passed": true
+    },
+    {
+      "name": "title",
+      "passed": true
+    },
+    {
+      "name": "exact_answer_count",
+      "passed": true
+    },
+    {
+      "name": "answer_delivery",
+      "passed": true
+    },
+    {
+      "name": "answer_returns",
+      "passed": true
+    },
+    {
+      "name": "answer_support",
+      "passed": true
+    }
+  ],
+  "receipt_used_as_evidence": false,
+  "actual_artifact_read": true,
+  "artifact_sha256": "2b1e1a6c11353dc40cfa61e0a27ed23b75a37763ac12002f43915e627b7c9750",
+  "limits": [
+    "Controlled local synthetic lab, not external production verification.",
+    "The operator, contract, source and filesystem are trusted locally; no authenticated third party.",
+    "Matching a supplied reference does not establish factual truth, utility or causal attribution.",
+    "Run token and file timing bind this lab task; they do not identify or authenticate an agent.",
+    "No contract acceptance, payment eligibility, customer delivery or market validation."
+  ],
+  "external_production_verified": false,
+  "causal_attribution_verified": false,
+  "payment_eligible": false,
+  "task_id": "SYN-FAQ-AURORA-001",
+  "run_token": "87cbf87a21429ae14663c8ac25828dbb2d11d38109970c4d",
+  "observed_mtime_ns": 1790909805246664911,
+  "observed_at_ns": 1790909805247324000
+}

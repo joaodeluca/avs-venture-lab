@@ -1,0 +1,197 @@
+{
+  "schema": "covenant-filesystem-replay-v1",
+  "mode": "EXECUTED_LOCAL_SYNTHETIC_CONTROLS",
+  "created_at_ns": 1790909805270538000,
+  "cases": [
+    {
+      "case": "positive",
+      "before": "REJECTED",
+      "after": "LOCAL_ARTIFACT_MATCH",
+      "expected": "LOCAL_ARTIFACT_MATCH",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "2b1e1a6c11353dc40cfa61e0a27ed23b75a37763ac12002f43915e627b7c9750",
+      "error_code": null,
+      "failed_checks": []
+    },
+    {
+      "case": "receipt_without_file",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": false,
+      "artifact_sha256": null,
+      "error_code": "FILE_ABSENT",
+      "failed_checks": []
+    },
+    {
+      "case": "corrupt_json",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "92072df399cb74703f8e86f450d552bc0bb01eeeb98a90985a1b7772c8fd0016",
+      "error_code": "INVALID_JSON",
+      "failed_checks": []
+    },
+    {
+      "case": "wrong_answer",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "acd9e1538959cdc8009d22c305b7758aefc907a68a43c7719b655aa3fdb198c7",
+      "error_code": null,
+      "failed_checks": [
+        "answer_delivery"
+      ]
+    },
+    {
+      "case": "wrong_source",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "076e6935a031ebb970dc2dc604184d4e4648fcb38666da476d27f8376fbc9cbc",
+      "error_code": null,
+      "failed_checks": [
+        "reference_source_binding"
+      ]
+    },
+    {
+      "case": "cross_task",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "c7aedb687e7e4f7e904339c5ad3f31d4ea4c2efb0c8bf59031a83c1e20063fde",
+      "error_code": null,
+      "failed_checks": [
+        "task_and_run_binding"
+      ]
+    },
+    {
+      "case": "previous_run_token",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "a83f1490eb6375d7f823b4f90dd4cd7cf395e4061f26c2672b892dc550e06e5d",
+      "error_code": null,
+      "failed_checks": [
+        "task_and_run_binding"
+      ]
+    },
+    {
+      "case": "stale_file",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "253d5cb16471d6fba9cb1db232392c3c04acda3741733fbb1970993403cd0190",
+      "error_code": null,
+      "failed_checks": [
+        "fresh_in_run_window"
+      ]
+    },
+    {
+      "case": "duplicate_answer",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "95a4e763066ff9ff23d1570db41ba1174e894540338749183c3890fc3e4adb23",
+      "error_code": null,
+      "failed_checks": [
+        "answer_delivery",
+        "answer_returns"
+      ]
+    },
+    {
+      "case": "symlink",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": false,
+      "artifact_sha256": null,
+      "error_code": "SYMLINK_NOT_ALLOWED",
+      "failed_checks": []
+    },
+    {
+      "case": "reference_changed",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": false,
+      "artifact_sha256": null,
+      "error_code": "SOURCE_HASH_MISMATCH",
+      "failed_checks": []
+    },
+    {
+      "case": "oversized",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": false,
+      "artifact_sha256": null,
+      "error_code": "FILE_TOO_LARGE",
+      "failed_checks": []
+    },
+    {
+      "case": "missing_answer",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "3736d05c3c7b396595db73ea08f3c4a4b77983da30598f07994b00fa056ef35b",
+      "error_code": null,
+      "failed_checks": [
+        "exact_answer_count",
+        "answer_delivery",
+        "answer_returns",
+        "answer_support"
+      ]
+    },
+    {
+      "case": "expired_run",
+      "before": "REJECTED",
+      "after": "REJECTED",
+      "expected": "REJECTED",
+      "passed": true,
+      "actual_artifact_read": true,
+      "artifact_sha256": "32564b87ecfa2a70905db32e99f71ec41e2662212cdb3d48fb6182a8c7d4b0b9",
+      "error_code": null,
+      "failed_checks": [
+        "fresh_in_run_window"
+      ]
+    }
+  ],
+  "all_expected_results": true,
+  "accepted_controls": 1,
+  "source_code_sha256": {
+    "covenant.py": "43d50402f21f58e5db1dd289d908439ac8b6dbff99731351fb1a7789ba041153",
+    "replay.py": "90fa23081ff258f56709c4908bf75351a6b52ef1cf1fdd7ecc779d09ca9c9531"
+  },
+  "external_calls": 0,
+  "incremental_spend_brl": 0,
+  "customers": 0,
+  "limits": [
+    "All facts, contracts, producer and filesystem are author-controlled.",
+    "Producer and verifier have separate CLI phases and independent readback; they are not independent organizations.",
+    "Expected failures are designed negative controls, not observed customer failure prevalence.",
+    "Expired-run case modifies local metadata; no real waiting/remote timing tested.",
+    "No signature, remote attestation, malicious-process sandbox or production oracle."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "covenant-readback-v1",
+  "mode": "CONTROLLED_SYNTHETIC_LOCAL_LAB",
+  "outcome": "REJECTED",
+  "checks": [
+    {
+      "name": "contract_and_reference_hashes",
+      "passed": true
+    }
+  ],
+  "receipt_used_as_evidence": false,
+  "actual_artifact_read": false,
+  "artifact_sha256": null,
+  "limits": [
+    "Controlled local synthetic lab, not external production verification.",
+    "The operator, contract, source and filesystem are trusted locally; no authenticated third party.",
+    "Matching a supplied reference does not establish factual truth, utility or causal attribution.",
+    "Run token and file timing bind this lab task; they do not identify or authenticate an agent.",
+    "No contract acceptance, payment eligibility, customer delivery or market validation."
+  ],
+  "external_production_verified": false,
+  "causal_attribution_verified": false,
+  "payment_eligible": false,
+  "task_id": "SYN-FAQ-AURORA-001",
+  "run_token": "87cbf87a21429ae14663c8ac25828dbb2d11d38109970c4d",
+  "error_code": "FILE_ABSENT"
+}

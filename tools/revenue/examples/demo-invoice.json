@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "data_class": "SIMULATED",
+  "customer_id": "demo_company",
+  "currency": "BRL",
+  "period_start": "2026-09-01T00:00:00Z",
+  "period_end": "2026-10-01T00:00:00Z",
+  "complete": true,
+  "lines": [
+    {
+      "line_id": "line_api",
+      "meter_id": "api_calls",
+      "unit": "call",
+      "quantity": "1150",
+      "amount": "34.50"
+    },
+    {
+      "line_id": "line_storage",
+      "meter_id": "storage",
+      "unit": "GB_day",
+      "quantity": "500",
+      "amount": "3.00"
+    }
+  ]
+}
