@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "data_class": "USER_SUPPLIED",
+  "customer_id": "PREENCHER",
+  "currency": "BRL",
+  "period_start": "PREENCHER_UTC",
+  "period_end": "PREENCHER_UTC",
+  "invoice_cutoff": "PREENCHER_UTC",
+  "pricing": "linear",
+  "rounding": "meter_total_half_up",
+  "meters": []
+}

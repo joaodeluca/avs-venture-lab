@@ -1,0 +1,44 @@
+name: 'V02 — Catálogo documental: consulta de escopo'
+description: Descreva uma necessidade concreta com contexto público ou fictício; não
+  é contratação.
+title: '[V02 scope] '
+body:
+- type: markdown
+  attributes:
+    value: 'Catálogo documental: Até vinte registros, fontes por campo, divergências
+      e desconhecidos; sem homologação. Referência inicial R$490. Prazo/escopo a acordar.
+      Contratação e recebimento indisponíveis; não é pedido de pagamento. Use somente
+      contexto público/fictício, sem PII, dados de cliente, exports privados ou segredo.
+      Esta consulta não autoriza citação individual em pesquisa.'
+- type: textarea
+  id: need
+  attributes:
+    label: Que problema concreto você precisa resolver?
+    description: Informe comportamento/entrega esperada e prazo relevante, sem revelar
+      informações privadas.
+  validations:
+    required: true
+- type: textarea
+  id: alternative
+  attributes:
+    label: Como você resolve isso hoje?
+    description: Descreva alternativa e motivo para considerar execução por terceiros.
+  validations:
+    required: true
+- type: dropdown
+  id: intent
+  attributes:
+    label: Qual é sua intenção?
+    options:
+    - Considerar execução paga após escopo e canal de contratação disponíveis
+    - Somente feedback técnico — sem intenção paga
+  validations:
+    required: true
+- type: checkboxes
+  id: public
+  attributes:
+    label: Contexto público
+    options:
+    - label: Posso discutir este exemplo publicamente e não incluí dados privados,
+        pessoais ou credenciais. Entendo que não é compromisso de compra.
+      required: true

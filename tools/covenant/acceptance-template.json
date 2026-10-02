@@ -1,0 +1,19 @@
+{
+  "criteria": [
+    {
+      "id": "effect-1",
+      "goal": "Defina o resultado que o agente deve produzir",
+      "principal": "FICTITIOUS-USER",
+      "resource": "FICTITIOUS-RESOURCE",
+      "predicate": {
+        "field": "observed_result",
+        "equals": "EXPECTED_VALUE"
+      },
+      "window": {
+        "start": "2026-10-01T10:00:00Z",
+        "end": "2026-10-01T10:10:00Z"
+      }
+    }
+  ],
+  "observations": []
+}

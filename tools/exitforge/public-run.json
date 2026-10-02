@@ -1,0 +1,41 @@
+{
+  "evidence": "EXECUTED_HTTP_GET_NO_REMOTE_CODE_EXECUTION",
+  "source_events": [
+    {
+      "url": "https://api.github.com/repos/c4snipes/n8n-transpiler",
+      "started_at_utc": "2026-10-01T21:21:21.232736+00:00",
+      "method": "GET",
+      "status": "ok",
+      "http_status": 200,
+      "request_count": 1,
+      "body_bytes": 5231,
+      "body_sha256": "85acc5e5958fa2172c1cbb90da8f3d1ccf9d21e7a55661d2008e03dd8a0045f5",
+      "finished_at_utc": "2026-10-01T21:21:21.516827+00:00"
+    },
+    {
+      "url": "https://api.github.com/repos/n8n-io/n8n",
+      "started_at_utc": "2026-10-01T21:21:21.517456+00:00",
+      "method": "GET",
+      "status": "ok",
+      "http_status": 200,
+      "request_count": 1,
+      "body_bytes": 6186,
+      "body_sha256": "a6bdf682d75262edb46a7a50b2de1716907f3af0a2974695fa5bacab5f813450",
+      "finished_at_utc": "2026-10-01T21:21:21.807077+00:00"
+    }
+  ],
+  "result_summary": {
+    "status": "completed_public_get",
+    "item_count": 2,
+    "network_calls": 2
+  },
+  "source_sha256": {
+    "aggregate.py": "f7509162877dc36dd9a6483877e07c97f1ddf32fb3fc4850edf2e39b62ed8efd",
+    "http_adapter.py": "ba05bd2f84364ac5a043e6a67706ebe5d26b954f3b4df8e3406e0adb601bf374",
+    "live_demo.py": "149860e79e941f5a0244aff35ce61200332ea265d44dc68dec8ea2a6f5ae2c33"
+  },
+  "adaptation": "Explicit URLs replace upstream example.com HTTP nodes. Repository metadata is not traffic/revenue; daily-kpi is only the preserved Set-node tag.",
+  "customer_or_sale_claimed": false,
+  "external_writes": 0,
+  "note": "Public GET metadata only; raw provider bodies are not republished here."
+}

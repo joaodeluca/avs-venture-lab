@@ -1,0 +1,43 @@
+# Conferência linear de uso — pacote local
+
+Este pacote compara **três exports normalizados que você preparou e autorizou**. Ele gera um relatório legível no navegador, JSON reproduzível, CSV de comparação e um manifesto de hashes. Não usa credenciais nem envia dados à rede. Não altera billing ou cobra ninguém. Não é parser nativo de Stripe, Orb ou Metronome, auditoria contábil certificada ou garantia de recuperação.
+
+## Executar com seus dados
+
+Python 3.9 ou posterior, somente biblioteca padrão. Coloque `delivery.py` e `reconcile.py` na mesma pasta. Mantenha entradas/saídas reais fora de Git, drives públicos e do portal; o download não autoriza envio de dados ao estudo.
+
+1. Copie `input-template/` para uma pasta privada no seu computador. Os placeholders e `complete=false` são deliberadamente inválidos: **o template vazio não é transação nem reconciliação**.
+2. Complete os três arquivos seguindo o contrato abaixo. Não apague cláusulas, linhas ou eventos para fingir compatibilidade. Se houver qualquer exclusão, pare.
+3. Rode localmente, escolhendo uma pasta de saída que ainda não existe:
+
+```sh
+python3 delivery.py --input-dir /caminho/privado/exports --output-dir /caminho/privado/relatorio-novo
+```
+
+4. Abra `report.html` na pasta de saída. Confira erros e avisos antes dos valores. `report.json` contém detalhes e proveniência; `summary.csv` contém somente comparação por medidor; `manifest.json` contém hashes dos três arquivos de entrega. Os hashes demonstram quais bytes foram usados, não a autenticidade dos exports.
+
+Exit codes: **0** correspondência; **1** revisão necessária, não falha do programa; **2** bloqueado, sem comparação monetária; **3** entrega não escrita, por exemplo diretório já existente. Nenhuma saída sobrescreve uma entrega anterior. A pasta criada tem permissão 700 e os arquivos 600 em sistemas Unix.
+
+O CSV prefixa com apóstrofo IDs/unidades textuais que começam por `=`, `+`, `-` ou `@`, para evitar interpretação como expressão/número em planilha. O engine admite `-` nesses identificadores e recusa os outros três sinais; a proteção é exclusiva de texto exportado. Valores numéricos negativos e IDs originais no JSON permanecem intactos. Para junção por ID exato, use JSON ou remova esse prefixo somente após importar a coluna como texto.
+
+## Preparação do export, sem esconder semântica
+
+Use um período fechado de **até 31 dias**, no máximo 10.000 eventos, 100 medidores e 100 linhas; 2 MB por arquivo. `customer_id` é um pseudônimo igual nos três arquivos. `data_class=USER_SUPPLIED` identifica dados fornecidos, **não prova que são reais ou completos**. Não escreva e-mail, nome, documentos ou chaves nestes arquivos.
+
+- **Contrato:** represente somente preço constante por unidade por medidor, uma moeda BRL/USD/EUR e arredondamento único do total de cada medidor por `ROUND_HALF_UP` para duas casas. Se a regra verdadeira não for essa, não substitua pela nossa. `period_start/end` delimitam `[start,end)` e `invoice_cutoff` declara o último recebimento incluído, ≥ fim do período. `meters`: `{meter_id,unit,unit_price}`; preço como string decimal, por exemplo `"0.015"`, não float.
+- **Eventos:** exporte a fonte completa de ocorrências e recebimentos, preservando IDs. `events`: `{event_id,meter_id,unit,kind,quantity,occurred_at,received_at,reverses}`. `kind=usage` tem `reverses=null`; `kind=refund` reverte quantidade de um uso identificado no mesmo período, não dinheiro. Quantidade é string positiva. Use timestamps UTC `YYYY-MM-DDTHH:MM:SSZ`; não invente horário de recebimento. IDs/unidades: ASCII alfanumérico, `_`/`-`, 1–80 caracteres. Decimal sem expoente, até 12 dígitos inteiros e 6 fracionários.
+- **Fatura:** inclua todas as linhas do período, no máximo uma por medidor. `lines`: `{line_id,meter_id,unit,quantity,amount}`. Quantidade é string decimal; amount é string não negativa com exatamente duas casas. Moeda e início/fim são idênticos ao contrato. Linha ausente é interpretada como zero faturado somente depois do atestado de export completo; omiti-la produz um falso candidato.
+
+Marque `complete=true` em eventos/fatura **apenas** após verificar paginação, filtros, janela, corte e arquivos omitidos. Documente separadamente quem preparou o export, fonte, data e regra de inclusão. Um resumo agregado de API não substitui os IDs e horários de eventos exigidos aqui. Se os três exports forem derivados do mesmo sistema, podem reproduzir o mesmo erro; comparação independente exige considerar fonte e controles do comprador.
+
+## Recusas obrigatórias
+
+Não suporta faixas graduadas, descontos, impostos, franquias, rateio, mínimos, pré-pago, créditos em dinheiro, alteração de preço, fatura parcial, múltiplas assinaturas, agregação max/last ou reversões entre períodos. Um caso graduado oficial da Stripe foi recusado no estudo; essa recusa permanece. Contrato de 32 dias é recusado pelo adaptador mesmo que o engine aceite um período maior.
+
+Duplicata idêntica de ID: conta uma vez e gera aviso. ID conflitante, atraso após cutoff, medidor/unidade inválido, reversão inválida ou export incompleto: bloqueia toda comparação, não soma o subconjunto aprovado. Valores positivos/negativos são **candidatos de revisão**, não direito de cobrar, crédito emitido, pagamento ou receita recuperada.
+
+## Revisão e aceite da entrega
+
+O destinatário precisa conferir: fontes/autorização/completude; escopo realmente linear; hashes; unidade/janela/cutoff; explicação dos avisos; pelo menos uma recomputação independente por medidor; concordância com o resultado ou ressalvas. Corrigir entradas exige nova pasta e novo manifesto. Executar o pacote ou ler o HTML **não representa aceite de serviço**.
+
+Serviço de conferência executado por agentes é apenas uma hipótese comercial separada. Não há contratação, checkout, cliente confirmado, recuperação ou demanda medida neste download.

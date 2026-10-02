@@ -1,0 +1,99 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TraceBid — relatório local</title><style>body{max-width:1000px;margin:40px auto;padding:20px;font-family:system-ui}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f0f3f8;padding:20px}strong{color:#9c4b00}</style><h1>Rastreabilidade do dossiê</h1><p><strong>NÃO EXECUTADO:</strong> este relatório valida texto e hashes. Declaração de capacidade não é prova de produto.</p><p><a href="report.json" download>JSON</a> · <a href="requirements.csv" download>CSV</a></p><pre>{
+  &quot;schema_version&quot;: 1,
+  &quot;report_type&quot;: &quot;technical_diligence&quot;,
+  &quot;dossier_id&quot;: &quot;sefaz-historical-short-excerpts-no-product&quot;,
+  &quot;provenance&quot;: {
+    &quot;synthetic_supplier&quot;: true,
+    &quot;synthetic_source_ids&quot;: [],
+    &quot;sources&quot;: [
+      {
+        &quot;id&quot;: &quot;SEFAZ-MS-2023-POC&quot;,
+        &quot;url&quot;: &quot;https://www.sefaz.ms.gov.br/wp-content/uploads/2023/05/Convocacao-e-Roteiro-da-POC.pdf&quot;,
+        &quot;title&quot;: &quot;SEFAZ/MS Convocação e Roteiro da POC; PE 0022/2022&quot;,
+        &quot;sha256&quot;: &quot;cf4c64661c7969a9a20890c3eee938a10915ab2c74e1e5cf72a6c945869c07fe&quot;,
+        &quot;observed_at&quot;: &quot;2026-10-01T19:32:36.179409+00:00&quot;,
+        &quot;kind&quot;: &quot;observed&quot;
+      }
+    ]
+  },
+  &quot;requirements&quot;: [
+    {
+      &quot;id&quot;: &quot;SEFAZ-R01&quot;,
+      &quot;category&quot;: &quot;filtering&quot;,
+      &quot;statement&quot;: &quot;Disponibilizar filtros dinâmicos configuráveis sobre contribuintes para consultas, visualizações e ações.&quot;,
+      &quot;status&quot;: &quot;supported&quot;,
+      &quot;required_capability&quot;: &quot;parameterized_taxpayer_filtering&quot;,
+      &quot;evidence&quot;: [
+        {
+          &quot;source_id&quot;: &quot;SEFAZ-MS-2023-POC&quot;,
+          &quot;page&quot;: 2,
+          &quot;quote&quot;: &quot;filtragem dinâmica&quot;
+        }
+      ],
+      &quot;capability_status&quot;: &quot;unknown&quot;,
+      &quot;capability_basis&quot;: &quot;not_declared&quot;,
+      &quot;capability_evidence&quot;: [],
+      &quot;action&quot;: &quot;verify_capability&quot;,
+      &quot;execution_status&quot;: &quot;NOT_EXECUTED&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SEFAZ-R02&quot;,
+      &quot;category&quot;: &quot;record_management&quot;,
+      &quot;statement&quot;: &quot;Permitir inclusão, remoção, alteração e reordenação dos contatos cadastrados.&quot;,
+      &quot;status&quot;: &quot;supported&quot;,
+      &quot;required_capability&quot;: &quot;contact_crud_and_reordering&quot;,
+      &quot;evidence&quot;: [
+        {
+          &quot;source_id&quot;: &quot;SEFAZ-MS-2023-POC&quot;,
+          &quot;page&quot;: 3,
+          &quot;quote&quot;: &quot;registros de contatos&quot;
+        }
+      ],
+      &quot;capability_status&quot;: &quot;unknown&quot;,
+      &quot;capability_basis&quot;: &quot;not_declared&quot;,
+      &quot;capability_evidence&quot;: [],
+      &quot;action&quot;: &quot;verify_capability&quot;,
+      &quot;execution_status&quot;: &quot;NOT_EXECUTED&quot;
+    },
+    {
+      &quot;id&quot;: &quot;SEFAZ-R03&quot;,
+      &quot;category&quot;: &quot;access_control&quot;,
+      &quot;statement&quot;: &quot;Configurar tarefas e permissões por usuário ou perfil, considerando régua, saldo devedor, tributo e idade do crédito.&quot;,
+      &quot;status&quot;: &quot;supported&quot;,
+      &quot;required_capability&quot;: &quot;contextual_user_permissions&quot;,
+      &quot;evidence&quot;: [
+        {
+          &quot;source_id&quot;: &quot;SEFAZ-MS-2023-POC&quot;,
+          &quot;page&quot;: 3,
+          &quot;quote&quot;: &quot;tarefas e permissões&quot;
+        }
+      ],
+      &quot;capability_status&quot;: &quot;unknown&quot;,
+      &quot;capability_basis&quot;: &quot;not_declared&quot;,
+      &quot;capability_evidence&quot;: [],
+      &quot;action&quot;: &quot;verify_capability&quot;,
+      &quot;execution_status&quot;: &quot;NOT_EXECUTED&quot;
+    }
+  ],
+  &quot;declared_gaps&quot;: [],
+  &quot;unknown_capabilities&quot;: [
+    &quot;SEFAZ-R01&quot;,
+    &quot;SEFAZ-R02&quot;,
+    &quot;SEFAZ-R03&quot;
+  ],
+  &quot;requirements_to_clarify&quot;: [],
+  &quot;scope_limits&quot;: [
+    &quot;Technical review of curated text only; no legal analysis, eligibility decision, or business approval.&quot;,
+    &quot;Quote matching checks local text, not source authenticity, interpretation, extraction quality, or completeness.&quot;,
+    &quot;Source SHA-256 identifies the local page-text JSON, not the original publication or PDF.&quot;,
+    &quot;Supplier capabilities are declarations; missing declarations remain unknown.&quot;,
+    &quot;An item not observed in the later dossier is not established to be revoked or removed from the source.&quot;,
+    &quot;Changed source hashes or URLs require evidence review even when a requirement and its quote remain unchanged; semantic interpretation is not validated.&quot;,
+    &quot;Três requisitos curados de documento histórico de 2023. Sem produto ou fornecedor avaliado.&quot;,
+    &quot;Arquivo de fonte contém somente âncoras curtas; não contexto integral. Semântica exige revisão do documento oficial.&quot;,
+    &quot;Todos os resultados de execução continuam NÃO EXECUTADOS. Declarações de capacidade não são observações.&quot;
+  ],
+  &quot;execution_status&quot;: &quot;NOT_EXECUTED&quot;,
+  &quot;execution_evidence&quot;: [],
+  &quot;notice&quot;: &quot;Text/hash validation and declared capabilities only. No system test or official POC approval.&quot;
+}</pre></html>

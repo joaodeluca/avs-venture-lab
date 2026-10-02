@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "id": "sefaz-historical-short-excerpts-no-product",
+  "sources": [
+    {
+      "id": "SEFAZ-MS-2023-POC",
+      "url": "https://www.sefaz.ms.gov.br/wp-content/uploads/2023/05/Convocacao-e-Roteiro-da-POC.pdf",
+      "title": "SEFAZ/MS Convocação e Roteiro da POC; PE 0022/2022",
+      "sha256": "cf4c64661c7969a9a20890c3eee938a10915ab2c74e1e5cf72a6c945869c07fe",
+      "observed_at": "2026-10-01T19:32:36.179409+00:00",
+      "kind": "observed"
+    }
+  ],
+  "source_pages": {
+    "SEFAZ-MS-2023-POC": "source-excerpts.json"
+  },
+  "requirements": [
+    {
+      "id": "SEFAZ-R01",
+      "category": "filtering",
+      "statement": "Disponibilizar filtros dinâmicos configuráveis sobre contribuintes para consultas, visualizações e ações.",
+      "status": "supported",
+      "required_capability": "parameterized_taxpayer_filtering",
+      "evidence": [
+        {
+          "source_id": "SEFAZ-MS-2023-POC",
+          "page": 2,
+          "quote": "filtragem dinâmica"
+        }
+      ]
+    },
+    {
+      "id": "SEFAZ-R02",
+      "category": "record_management",
+      "statement": "Permitir inclusão, remoção, alteração e reordenação dos contatos cadastrados.",
+      "status": "supported",
+      "required_capability": "contact_crud_and_reordering",
+      "evidence": [
+        {
+          "source_id": "SEFAZ-MS-2023-POC",
+          "page": 3,
+          "quote": "registros de contatos"
+        }
+      ]
+    },
+    {
+      "id": "SEFAZ-R03",
+      "category": "access_control",
+      "statement": "Configurar tarefas e permissões por usuário ou perfil, considerando régua, saldo devedor, tributo e idade do crédito.",
+      "status": "supported",
+      "required_capability": "contextual_user_permissions",
+      "evidence": [
+        {
+          "source_id": "SEFAZ-MS-2023-POC",
+          "page": 3,
+          "quote": "tarefas e permissões"
+        }
+      ]
+    }
+  ],
+  "supplier_profile": {
+    "synthetic": true,
+    "capabilities": []
+  },
+  "scope_limits": [
+    "Três requisitos curados de documento histórico de 2023. Sem produto ou fornecedor avaliado.",
+    "Arquivo de fonte contém somente âncoras curtas; não contexto integral. Semântica exige revisão do documento oficial.",
+    "Todos os resultados de execução continuam NÃO EXECUTADOS. Declarações de capacidade não são observações."
+  ]
+}

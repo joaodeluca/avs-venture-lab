@@ -1,0 +1,9 @@
+import {diagnose,examples} from './diagnostic.mjs';
+const input=document.querySelector('#input'), result=document.querySelector('#result'), error=document.querySelector('#error');
+let report=null;
+function el(tag,text,cls){const x=document.createElement(tag);x.textContent=text;if(cls)x.className=cls;return x;}
+function run(){error.textContent='';try{report=diagnose(JSON.parse(input.value));result.replaceChildren(el('p',report.outcome,'outcome '+report.outcome));for(const row of report.criteria){const card=el('article','','card');card.append(el('h3',row.goal),el('p',row.outcome,'badge'),el('p',row.receipt_claim==='INSUFFICIENT_AS_OUTCOME_PROOF'?'Recibo insuficiente como prova de resultado.':'Nenhuma conclusão depende de recibo.'));if(row.missing.length){card.append(el('h4','Evidência que falta'));const list=document.createElement('ul');for(const m of row.missing)list.append(el('li',m));card.append(list);}card.append(el('p',row.next_action),el('p',row.scope,'small'));result.append(card);}result.append(el('p','Estado externo verificado: NÃO · Causalidade verificada: NÃO · Pagamento autorizado: NÃO','small'));document.querySelector('#download').disabled=false;}catch(e){report=null;result.replaceChildren();error.textContent='Entrada inválida: '+e.message;document.querySelector('#download').disabled=true;}}
+for(const b of document.querySelectorAll('[data-example]'))b.addEventListener('click',()=>{input.value=JSON.stringify(examples[b.dataset.example],null,2);run();});
+document.querySelector('#run').addEventListener('click',run);
+document.querySelector('#download').addEventListener('click',()=>{if(!report)return;const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)+'\n'],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='covenant-diagnostic.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+input.value=JSON.stringify(examples.status_only,null,2);run();
