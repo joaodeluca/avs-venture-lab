@@ -23,3 +23,11 @@ Campos principais do dossiê: `schema_version: 1`, `id`, `sources`, `source_page
 Fonte histórica: [SEFAZ/MS, roteiro de POC de 2023](https://www.sefaz.ms.gov.br/wp-content/uploads/2023/05/Convocacao-e-Roteiro-da-POC.pdf), páginas físicas 2 e 3. São três requisitos previamente curados e âncoras curtas, sem PDF integral. A matriz CSV inclui quatorze procedimentos autorais propostos; todos NÃO EXECUTADOS. Parâmetros/critério devem ser acordados antes de qualquer ensaio.
 
 Não há execução contra produto, aprovação oficial, interpretação jurídica, OCR ou cobertura integral. Uma mudança de fonte exige revisão; hash não comprova autenticidade ou suficiência. Um produto pode ter uma capacidade declarada e falhar no uso real. O arquivo não prova compra, entrega de cliente ou ganho de tempo.
+
+## Workspace no navegador: retomar trabalho incompleto
+
+Abra `workspace.html` em HTTPS ou localhost. “Salvar rascunho incompleto” baixa um JSON separado (`format: tracebid-draft`, `version: 1`, `execution_authenticated: false`). Ele conserva campos ainda vazios e observações em edição; não libera checklist, não autentica PASS e não executa ensaio. “Retomar JSON” lê tanto esse envelope quanto o plano validado existente. A importação rejeitada conserva o editor, mas invalida a exportação validada anterior para exigir nova conferência. O rascunho exige tipos, IDs únicos, referências de requisito existentes e hashes no formato certo; não aceita qualquer JSON arbitrário.
+
+Limites: 1 MB por JSON, cinco requisitos, vinte verificações, cinco referências de arquivo por verificação, vinte MB por arquivo vinculado. Rascunhos podem ter zero requisitos/verificações; o plano validado exige ao menos um de cada e procedimento/fonte/resultado esperado completos. Não há armazenamento automático, upload ou autosave: salve o JSON antes de fechar. Este formato do workspace é distinto do dossiê do programa Python; não há conversão automática entre eles.
+
+Verificação focada: `node --test tools/poc/test-workspace-roundtrip.mjs` na raiz do laboratório (Node com `node:test` e `structuredClone`). Os casos são sintéticos e não provam execução em produto, compatibilidade de todos os navegadores ou valor comercial.

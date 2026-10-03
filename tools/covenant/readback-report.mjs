@@ -1,0 +1,6 @@
+const titles = {CONTENT_MATCH:'Conteúdo corresponde aos critérios locais',PARTIAL_MATCH:'Correspondência parcial: um vínculo continua desconhecido',REJECTED:'Entrega recusada nesta conferência',UNKNOWN:'Não há evidência suficiente para conferir'};
+export const escapeHTML = text => String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+export function reportHTML(report) {
+  const title = titles[report.outcome] ?? titles.UNKNOWN;
+  return `<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Covenant — conferência local</title><style>body{max-width:900px;margin:40px auto;padding:24px;font:16px/1.6 system-ui;color:#222}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:20px;background:#f4f1f8}</style><h1>${escapeHTML(title)}</h1><p>Relatório derivado da leitura local nesta aba. Não é prova autenticada de produção, causalidade ou aceite comercial. Contém as perguntas e respostas comparadas, além dos hashes; não incorpora os arquivos completos nem seus nomes. Compartilhe apenas se esse conteúdo puder ser divulgado.</p><pre>${escapeHTML(JSON.stringify(report,null,2))}</pre></html>`;
+}

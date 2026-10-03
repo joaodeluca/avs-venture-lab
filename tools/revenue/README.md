@@ -2,12 +2,28 @@
 
 Produto gratuito de conferência para um fechamento **linear**. Abra `index.html` por um servidor estático ou pelo portal AVS Labs. Arquivos são processados em memória no navegador, sem API, upload, armazenamento persistente ou integração com plataformas de cobrança. A conexão HTTPS ao host estático continua sujeita aos registros do provedor; os textos das entradas não são enviados pela aplicação.
 
-1. Explore a demonstração explicitamente fictícia ou abra/cole três JSONs normalizados.
-2. Declare cliente opaco, moeda, período UTC e corte, preços constantes, eventos completos e linhas completas de fatura.
-3. Confira quantidade e valor por medidor; revise avisos e bloqueios.
-4. Baixe JSON, CSV ou HTML. Os hashes SHA-256 identificam textos, sem atestar autenticidade. Aceite externo não observado.
+1. Explore a demonstração explicitamente fictícia ou preencha o formulário de contrato e fatura. O modo avançado continua abrindo/colando os três JSONs normalizados.
+2. Informe cliente opaco comum aos documentos, moedas separadas, períodos UTC do contrato e da fatura, corte e preços constantes. A cópia do período exige uma ação explícita; não há conversão de fuso.
+3. Abra/cole um CSV de eventos já normalizados e confira a prévia. Declare a situação de completude do export e das linhas da fatura separadamente. Não preencha campos inexistentes apenas para desbloquear o cálculo.
+4. Prepare/baixe os três JSONs ou confira diretamente. Veja quantidade e valor por medidor; revise avisos e bloqueios.
+5. Baixe o relatório JSON, CSV ou HTML. Os hashes SHA-256 identificam textos, sem atestar autenticidade. Aceite externo não observado.
 
 Não importa exports brutos do Stripe/Orb/Metronome automaticamente. Os templates em `package/input-template/` são incompletos de propósito. Exemplos `examples/demo-*.json` são somente fictícios.
+
+## Preparação sem escrever schemas JSON
+
+O formulário prepara as entradas do **mesmo motor linear existente**. Não integra o importador privado produzido pelo Grok, nem infere `complete:true`. Não grava faturas ou ajusta sistemas financeiros.
+
+- Medidores e linhas de fatura são adicionados/removidos no formulário; IDs, unidades, preços, quantidades e valores permanecem textos fornecidos. Números decimais nunca passam por `Number`/ponto flutuante.
+- O cabeçalho CSV vazio baixado é `event_id,meter_id,unit,kind,quantity,occurred_at,received_at,reverses`. A ordem pode mudar, mas exige exatamente esse conjunto, sem campos extras ou duplicados.
+- CSV aceita LF/CRLF, células com aspas e um BOM UTF-8 inicial (remoção indicada na prévia/preparação). Recusa aspas abertas, caracteres após aspas fechadas, colunas faltantes/extras, linhas vazias internas e CR isolado. É um formato delimitado por vírgula; não aceita um export genérico ou CSV separado por ponto e vírgula automaticamente.
+- Cada campo CSV tem no máximo 4.096 caracteres, além dos limites de ID/decimal/data. São até 2 MB UTF-8 e 10 mil eventos. São limites deste adaptador, não alegação de compatibilidade com todos os exports.
+- Cada JSON gerado também precisa caber em 2 MB. O adaptador remove apenas espaços de formatação se necessário; se ainda exceder, recusa a preparação inteira sem descartar registros. Um CSV abaixo de 2 MB pode produzir JSON maior devido aos nomes dos campos.
+- `usage` exige `reverses` vazio, que vira `null` conforme o schema existente; `refund` exige referência explícita. Não cria IDs, unidades, horários de recebimento ou referências de estorno.
+- Situação de completude começa em **não sei**. “Não sei” e “incompleto” exportam `complete:false` e recusam comparação monetária. Somente a declaração explícita “completo” gera `true`; isso continua sem comprovação externa. O relatório distingue as declarações; os JSONs de entrada preservam apenas o booleano do schema existente.
+- Contrato e fatura têm moedas/períodos próprios. Datas ou moedas divergentes continuam recusadas pelo motor. Remover todas as linhas de fatura e declarar completude é informar zero, não evidência independente de ausência de faturamento.
+- A prévia valida os registros e mostra os primeiros dez, sem avaliar completude. Preparação falha de forma integral diante de erro de CSV; nenhum subconjunto válido é importado silenciosamente.
+- Os modos formulário e JSON são independentes. Alterar o formulário invalida o resultado e desabilita baixar entradas até nova preparação. Mudanças em eventos, fatura ou contrato devolvem as declarações afetadas a “não sei”, exigindo reafirmação para a base nova; importar outro CSV também exige selecionar sua classe novamente. No modo avançado, os textos JSON são a fonte da conferência. Nenhum campo ausente é reconstruído de um arquivo raw.
 
 ## Regras e recusas
 
@@ -32,8 +48,11 @@ Não importa exports brutos do Stripe/Orb/Metronome automaticamente. Os template
 
 ```sh
 node test-reconcile.mjs
+node --test test-guided.mjs
 ```
 
 A suíte confronta 25 casos sintéticos com `package/reconcile.py` via `python3`: arredondamento, escala decimal, valores grandes, estornos, duplicação, corte, período, unidades, medidores e contratos recusados. Verifica também limite de 31 dias, parser restrito, calendário e totais. O motor Python original admite até 366 dias; este recorte mantém os 31 dias do adaptador de entrega. Compatibilidade é demonstrada somente nos casos enumerados, não em toda entrada possível.
+
+`test-guided.mjs` tem 27 testes focados na preparação: preservação de schemas/decimais, seis cenários confrontados com o Python original, estados de completude desconhecida/incompleta, datas/moedas independentes, estornos, parsing estrito, limites físicos de 10.000/10.001 registros, tamanho, campos e limite dos JSONs gerados. São testes puros do adaptador; não equivalem a execução do fluxo visual, autenticação de arquivos ou auditoria contábil.
 
 Sem comprador, pagamento, aceite, vantagem exclusiva, economia ou autonomia comercial demonstrados pela suíte.

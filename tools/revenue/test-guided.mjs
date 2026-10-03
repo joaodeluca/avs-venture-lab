@@ -1,0 +1,46 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {demoBundle} from './examples.mjs';
+import {parseStrict} from './reconcile.mjs';
+import {buildGuidedBundle,formFromBundle,parseEventCsv,EVENT_CSV_TEMPLATE,eventsToCsv,serializeInputs} from './guided.mjs';
+
+const form=()=>formFromBundle(demoBundle());
+const checkBlocked=(prepared,code)=>{assert.equal(prepared.report.status,'blocked');assert.deepEqual(prepared.report.comparison,[]);if(code)assert.ok(prepared.report.errors.some(issue=>issue.code===code));};
+test('guided synthetic bundle preserves all three existing schemas exactly',()=>{
+ const source=demoBundle(),prepared=buildGuidedBundle(formFromBundle(source));assert.deepEqual(prepared.bundle,source);assert.equal(prepared.report.status,'review');assert.equal(prepared.report.comparison[0].signed_delta,'1.50');
+});
+test('guided output reproduces Python engine for six declared scenarios',()=>{
+ const scenarios=['difference','matched','incomplete','duplicate','late','unit'];const prepared=scenarios.map(name=>buildGuidedBundle(formFromBundle(demoBundle(name))));
+ const path=fileURLToPath(new URL('./package/reconcile.py',import.meta.url));
+ const script="import json,sys,importlib.util\ns=importlib.util.spec_from_file_location('engine',sys.argv[1]);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)\nprint(json.dumps([m.reconcile(x['contract'],x['events'],x['invoice']) for x in json.load(sys.stdin)]))";
+ const run=spawnSync('python3',['-c',script,path],{input:JSON.stringify(prepared.map(p=>p.bundle)),encoding:'utf8'});assert.equal(run.status,0,run.stderr);const expected=JSON.parse(run.stdout);prepared.forEach((p,index)=>assert.deepEqual(p.report,expected[index],scenarios[index]));
+});
+for(const declaration of ['unknown','incomplete'])for(const source of ['events','invoice'])test(`${source} ${declaration} declaration cannot become complete or emit money`,()=>{
+ const f=form();f[source+'_completeness']=declaration;const prepared=buildGuidedBundle(f);assert.equal(prepared.bundle[source].complete,false);assert.equal(prepared.preparation.declarations[source],declaration);checkBlocked(prepared);
+});
+test('blank-header export is not automatically complete',()=>{const f=form();f.events_csv=EVENT_CSV_TEMPLATE;f.events_completeness='unknown';const p=buildGuidedBundle(f);assert.deepEqual(p.bundle.events.events,[]);checkBlocked(p);});
+test('explicitly complete empty exports remain zero informed, not missing records fabricated',()=>{const f=form();f.events_csv=EVENT_CSV_TEMPLATE;f.invoice_lines=[];const p=buildGuidedBundle(f);assert.equal(p.report.status,'matched');assert.equal(p.report.comparison[0].expected_amount,'0.00');assert.deepEqual(p.bundle.invoice.lines,[]);});
+test('independent invoice currency and period mismatches remain blocked',()=>{for(const change of [f=>f.invoice_currency='USD',f=>f.invoice_period_end='2026-10-02T00:00:00Z']){const f=form();change(f);checkBlocked(buildGuidedBundle(f));}});
+test('provided class is copied consistently without changing factual data',()=>{const f=form();f.data_class='USER_SUPPLIED';const p=buildGuidedBundle(f);for(const doc of Object.values(p.bundle))assert.equal(doc.data_class,'USER_SUPPLIED');assert.equal(p.preparation.completeness,'user_asserted_not_verified');});
+test('prices and quantities retain decimal scale and exact large coefficient',()=>{const f=form();f.meters[0].unit_price='999999999999.999999';f.events_csv=f.events_csv.replace(',1000,',',0.100000,');const p=buildGuidedBundle(f);assert.equal(p.bundle.contract.meters[0].unit_price,'999999999999.999999');assert.equal(p.bundle.events.events[0].quantity,'0.100000');});
+test('decimal comma, numeric values, exponent and excess precision are rejected, not rounded',()=>{for(const value of ['0,03','1e-3','0.1234567',0.03,' 0.03']){const f=form();f.meters[0].unit_price=value;assert.throws(()=>buildGuidedBundle(f),/texto decimal/);}});
+test('missing dates, IDs and amounts never receive defaults',()=>{for(const change of [f=>f.customer_id='',f=>f.period_start='',f=>f.invoice_lines[0].amount='',f=>f.meters[0].unit='']){const f=form();change(f);assert.throws(()=>buildGuidedBundle(f));}});
+test('calendar errors and local timezone offsets are refused',()=>{for(const value of ['2026-02-29T00:00:00Z','2026-09-01T00:00:00-03:00','2026-09-01T00:00:00.000Z']){const f=form();f.period_start=value;assert.throws(()=>buildGuidedBundle(f),/UTC real/);}});
+test('period more than 31 days and cutoff before end are refused',()=>{for(const change of [f=>f.period_start='2026-08-01T00:00:00Z',f=>f.invoice_cutoff='2026-09-30T00:00:00Z']){const f=form();change(f);assert.throws(()=>buildGuidedBundle(f));}});
+test('refund CSV preserves explicit references and usage becomes null only for blank reverses',()=>{const e=parseEventCsv(form().events_csv).events;assert.equal(e[0].reverses,null);assert.equal(e[2].reverses,'api_02');assert.throws(()=>parseEventCsv(form().events_csv.replace(',usage,1000,',',refund,1000,')),/reverses/);});
+test('unknown meter, bad unit and late receipt are engine blockers, not silently corrected',()=>{for(const change of [f=>f.events_csv=f.events_csv.replace(',api_calls,',',absent,'),f=>f.events_csv=f.events_csv.replace(',call,',',request,'),f=>f.events_csv=f.events_csv.replace('2026-09-10T10:01:00Z','2026-10-03T10:01:00Z')]){const f=form();change(f);checkBlocked(buildGuidedBundle(f));}});
+test('same event ID with conflicting quantities remains refused',()=>{const f=form(),events=demoBundle().events.events;f.events_csv=eventsToCsv([...events,{...events[0],quantity:'1'}]);checkBlocked(buildGuidedBundle(f),'conflicting_event_id');});
+test('CSV accepts CRLF, quoted cells, BOM and reorder without coercing decimal strings',()=>{const events=demoBundle().events.events;const source=eventsToCsv(events).replaceAll('\n','\r\n').replace('api_01','"api_01"');const parsed=parseEventCsv('\uFEFF'+source);assert.deepEqual(parsed.events,events);assert.equal(parsed.bomRemoved,true);const columns=['reverses','received_at','occurred_at','quantity','kind','unit','meter_id','event_id'];const rearranged=columns.join(',')+'\n'+events.map(e=>columns.map(k=>e[k]??'').join(',')).join('\n');assert.deepEqual(parseEventCsv(rearranged).events,events);});
+test('CSV malformed quoted data is rejected atomically after a valid record',()=>{const source=eventsToCsv([demoBundle().events.events[0]]);for(const suffix of ['"api_02','"api_02"x,api_calls,call,usage,1,2026-09-11T00:00:00Z,2026-09-11T00:01:00Z,\n'])assert.throws(()=>parseEventCsv(source+suffix),/aspas/);});
+test('extra, missing, duplicated or unknown columns cannot be discarded',()=>{const csv=form().events_csv;for(const text of [csv.replace('reverses','reverses,extra'),csv.replace('reverses','event_id'),csv.replace('reverses','unknown'),csv.replace(',received_at',''),csv.replace('api_01,','api_01,extra,')])assert.throws(()=>parseEventCsv(text));});
+test('internal blank lines and unquoted quotes are refused',()=>{assert.throws(()=>parseEventCsv(form().events_csv.replace('\n','\n\n')),/colunas/);assert.throws(()=>parseEventCsv(form().events_csv.replace('api_01','api_"01')),/aspas/);});
+test('event timestamps, ID emptiness and zero quantities cannot be inferred',()=>{for(const text of [form().events_csv.replace('api_01',''),form().events_csv.replace(',usage,1000,',',usage,0,'),form().events_csv.replace('2026-09-10T10:01:00Z','')])assert.throws(()=>parseEventCsv(text));});
+test('CSV byte, record and field bounds are enforced at physical boundaries',()=>{
+ const base=demoBundle().events.events[0],line=eventsToCsv([base]).split('\n')[1]+'\n';assert.equal(parseEventCsv(EVENT_CSV_TEMPLATE+line.repeat(10000)).events.length,10000);assert.throws(()=>parseEventCsv(EVENT_CSV_TEMPLATE+line.repeat(10001)),/10 mil/);
+ assert.throws(()=>parseEventCsv('x'.repeat(2000001)),/2 MB/);assert.throws(()=>parseEventCsv(EVENT_CSV_TEMPLATE+'"'+'x'.repeat(4097)),/campo muito longo/);
+});
+test('duplicate contract or invoice IDs and missing explicit declaration options are refused',()=>{for(const change of [f=>f.meters.push({...f.meters[0]}),f=>f.invoice_lines.push({...f.invoice_lines[0]}),f=>f.events_completeness=true,f=>f.data_class='']){const f=form();change(f);assert.throws(()=>buildGuidedBundle(f));}});
+test('10,000 normal events serialize compactly within raw-input limit without losing rows',()=>{const b=demoBundle();b.events.events=Array.from({length:10000},(_,index)=>({...b.events.events[0],event_id:'event_'+index}));const inputs=serializeInputs(b);assert.ok(new TextEncoder().encode(inputs.events).length<=2000000);assert.equal(parseStrict(inputs.events).events.length,10000);assert.equal(JSON.stringify(parseStrict(inputs.contract)),JSON.stringify(b.contract));});
+test('CSV within limit but normalized JSON beyond limit refuses preparation without truncating',()=>{const f=form(),event={...demoBundle().events.events[0],event_id:'e'.repeat(80),meter_id:'m'.repeat(80),unit:'u'.repeat(80)};f.events_csv=eventsToCsv(Array.from({length:6000},()=>event));assert.ok(new TextEncoder().encode(f.events_csv).length<=2000000);assert.throws(()=>buildGuidedBundle(f),/base normalizada excede 2 MB/);});

@@ -7,10 +7,10 @@ Five free local evidence utilities by João de Luca, built with AI assistance. O
 | Tool | Run / output | Boundaries |
 |---|---|---|
 | POC / TraceBid — browser workspace + Python | `python3 tools/poc/run.py --dossier tools/poc/sample-dossier.json --out my-report` → HTML/JSON/CSV | Text/source hashes only; no system test or official approval. |
-| Catalog | Browser comparison at tools/catalog; downloadable Python renderer | Supplied facts/URLs are not authenticated. No substitution/merge approval. |
-| Linear billing | Browser import/reconciliation/reports; Python adapter at tools/revenue/package | Constant unit prices only; local normalized exports. No invoice correction/collection. |
-| Covenant | Real finite local FAQ producer/readback at tools/covenant/execution; browser results + diagnostic | Separate readback ignores worker receipt. Trusted local synthetic task/filesystem; no authenticated remote oracle. |
-| ExitForge | `python3 aggregate.py examples/input.json` inside the downloaded package | One small object append/tag example; not a universal converter or full n8n equivalence. |
+| Catalog | CSV/JSON batch review, group conflicts and comparison at tools/catalog; downloadable Python renderer | Supplied facts/URLs are not authenticated. No substitution/merge approval. |
+| Linear billing | Guided contract/invoice + explicit event CSV; advanced JSON/reconciliation/reports; Python adapter at tools/revenue/package | Constant unit prices only; local normalized exports. No invoice correction/collection. |
+| Covenant | Prepare criteria and inspect selected FAQ bytes at tools/covenant/readback.html; original Python producer/readback preserved | Separate readback ignores worker receipt. Trusted local synthetic task/filesystem; no authenticated remote oracle. |
+| ExitForge | `python3 aggregate.py examples/input.json` inside the downloaded package | Local structural n8n JSON assessment + original append/tag example; neither universal converter nor migration equivalence. |
 
 Open `index.html` through a static server (`python3 -m http.server 8773`) or use GitHub Pages after a successful deployment. Browser tools process input in memory, no app analytics/persistence/uploads; local Python runs on your own machine. Optional ExitForge HTTP example makes only explicitly supplied public GET requests. Hosting providers log requests under their own policy.
 
@@ -43,3 +43,13 @@ TraceBid uses only short anchors and original plans from historical SEFAZ/MS POC
 - [Covenant actual file](https://joaodeluca.github.io/avs-venture-lab/tools/covenant/execution.html): a saved executed synthetic FAQ, actual readback and adverse filesystem controls. Download Python to run another controlled task. Producer example is deterministic, not a remote AI.
 
 Five separate product descriptions live in solutions/. Product clarity and finite tests are preparation, not proof of market or companies operating.
+
+## Work with your own files
+
+- POC: incomplete draft save/resume, validation and checklist.
+- Catalog: bounded CSV/JSON batches, identity groups, conflict queue, preserved extra fields.
+- Billing: guided base preparation; unknown completeness blocks monetary output.
+- Covenant: `tools/covenant/readback.html` compares selected contract/reference/FAQ bytes, never a worker receipt.
+- ExitForge: `tools/exitforge/assessment/` flags structural blockers and runtime losses without executing a workflow. Reports omit parameter values.
+
+Read each tool README for formats and boundaries. Invalid inputs do not certify results. These are finite technical capabilities, not customer validation or companies in operation.

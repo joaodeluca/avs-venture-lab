@@ -6,17 +6,18 @@ const object=(value,label)=>{if(!value||typeof value!=='object'||Array.isArray(v
 function keys(value,allowed,label){object(value,label);for(const key of Object.keys(value))if(!allowed.includes(key))fail(`${label}: campo não permitido ${key}.`);for(const key of allowed)if(!own(value,key))fail(`${label}: falta ${key}.`);}
 function text(value,label,max=2000){if(typeof value!=='string'||!value.trim()||value.length>max||/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value))fail(`${label}: texto não vazio, até ${max} caracteres, sem controles.`);return value.trim();}
 function id(value,label){if(typeof value!=='string'||!/^[-A-Za-z0-9_]{1,40}$/.test(value))fail(`${label}: use 1–40 letras ASCII, números, _ ou -.`);return value;}
-export function validatePlan(input){
+function normalizePlan(input,draft=false){
+ const planText=(value,label,max=2000)=>{if(!draft)return text(value,label,max);if(typeof value!=='string'||value.length>max||/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value))fail(`${label}: rascunho exige texto até ${max} caracteres sem controles.`);return value;};
  keys(input,['schema_version','title','requirements','checks'],'Plano');
  if(input.schema_version!==1)fail('Versão de esquema não suportada.');
- const title=text(input.title,'Nome do plano',200);
- if(!Array.isArray(input.requirements)||input.requirements.length<1||input.requirements.length>LIMITS.requirements)fail('Use 1–5 requisitos.');
- if(!Array.isArray(input.checks)||input.checks.length<1||input.checks.length>LIMITS.checks)fail('Use 1–20 verificações.');
+ const title=planText(input.title,'Nome do plano',200);
+ if(!Array.isArray(input.requirements)||input.requirements.length<(draft?0:1)||input.requirements.length>LIMITS.requirements)fail('Use 1–5 requisitos.');
+ if(!Array.isArray(input.checks)||input.checks.length<(draft?0:1)||input.checks.length>LIMITS.checks)fail('Use 1–20 verificações.');
  const allIds=new Set(),requirementIds=new Set();
  const requirements=input.requirements.map((r,index)=>{
   const label=`Requisito ${index+1}`;keys(r,['id','text','source'],label);const rid=id(r.id,label+' ID');if(allIds.has(rid))fail('IDs precisam ser únicos: '+rid);allIds.add(rid);requirementIds.add(rid);
   keys(r.source,['reference','locator'],label+' fonte');
-  return{id:rid,text:text(r.text,label+' texto'),source:{reference:text(r.source.reference,label+' referência',1000),locator:text(r.source.locator,label+' localização',300)}};
+  return{id:rid,text:planText(r.text,label+' texto'),source:{reference:planText(r.source.reference,label+' referência',1000),locator:planText(r.source.locator,label+' localização',300)}};
  });
  const counts=new Map();
  const checks=input.checks.map((c,index)=>{
@@ -24,7 +25,7 @@ export function validatePlan(input){
   if(!requirementIds.has(c.requirement_id))fail(label+': requisito de origem inexistente.');counts.set(c.requirement_id,(counts.get(c.requirement_id)||0)+1);
   if(!STATUSES.includes(c.declared_status))fail(label+': status declarado inválido.');
   if(typeof c.observation!=='string'||c.observation.length>2000||/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(c.observation))fail(label+': observação inválida.');
-  if(c.declared_status!=='NOT_EXECUTED'&&!c.observation.trim())fail(label+': explique a observação ou a razão do status.');
+  if(!draft&&c.declared_status!=='NOT_EXECUTED'&&!c.observation.trim())fail(label+': explique a observação ou a razão do status.');
   if(!Array.isArray(c.evidence)||c.evidence.length>5)fail(label+': no máximo 5 referências de arquivo.');
   const evidence=c.evidence.map((e,n)=>{
    const el=label+` arquivo ${n+1}`;keys(e,['filename','bytes','sha256'],el);
@@ -32,10 +33,24 @@ export function validatePlan(input){
    if(typeof e.sha256!=='string'||!/^[a-f0-9]{64}$/.test(e.sha256))fail(el+': SHA256 inválido.');
    return{filename,bytes:e.bytes,sha256:e.sha256};
   });
-  return{id:cid,requirement_id:c.requirement_id,procedure:text(c.procedure,label+' procedimento'),expected:text(c.expected,label+' resultado esperado'),declared_status:c.declared_status,observation:c.observation.trim(),evidence};
+  return{id:cid,requirement_id:c.requirement_id,procedure:planText(c.procedure,label+' procedimento'),expected:planText(c.expected,label+' resultado esperado'),declared_status:c.declared_status,observation:draft?c.observation:c.observation.trim(),evidence};
  });
- for(const rid of requirementIds)if(!counts.has(rid))fail('Cada requisito precisa de uma verificação: '+rid);
+ for(const rid of requirementIds)if(!draft&&!counts.has(rid))fail('Cada requisito precisa de uma verificação: '+rid);
  return{schema_version:1,title,requirements,checks};
+}
+export function validatePlan(input){return normalizePlan(input);}
+// Draft is a separate envelope: structural safety permits empty planning fields,
+// but never supplies a validated snapshot or changes declared test outcomes.
+export function createDraft(input){return{format:'tracebid-draft',version:1,execution_authenticated:false,plan:normalizePlan(input,true)};}
+export function parseWorkspaceFile(raw){
+ if(typeof raw!=='string'||new TextEncoder().encode(raw).byteLength>LIMITS.jsonBytes)fail('JSON limitado a 1 MB.');
+ let value;try{value=JSON.parse(raw);}catch{fail('JSON inválido.');}
+ if(value?.format==='tracebid-draft'){
+  keys(value,['format','version','execution_authenticated','plan'],'Rascunho');
+  if(value.version!==1||value.execution_authenticated!==false)fail('Envelope de rascunho inválido.');
+  return{kind:'draft',plan:normalizePlan(value.plan,true)};
+ }
+ return{kind:'plan',plan:validatePlan(value)};
 }
 export function createValidationGate(){let snapshot=null;return{invalidate(){snapshot=null;},validate(input){snapshot=null;snapshot=validatePlan(input);return this.get();},get(){return snapshot?structuredClone(snapshot):null;},get available(){return snapshot!==null;}};}
 export function parsePlan(raw){if(typeof raw!=='string'||new TextEncoder().encode(raw).byteLength>LIMITS.jsonBytes)fail('JSON limitado a 1 MB.');let value;try{value=JSON.parse(raw);}catch{fail('JSON inválido.');}return validatePlan(value);}
@@ -75,9 +90,10 @@ if(typeof document!=='undefined'){
  $('add-requirement').addEventListener('click',()=>{if(plan.requirements.length>=LIMITS.requirements)return;const req={id:nextId('R'),text:'',source:{reference:'',locator:''}};plan.requirements.push(req);if(plan.checks.length<LIMITS.checks)plan.checks.push(newCheck(req.id));invalidate();render();});
  $('demo').addEventListener('click',()=>{operation++;plan=createSyntheticDemo();invalidate('Exemplo sintético carregado. Nenhuma verificação foi executada.');render();});
  $('blank').addEventListener('click',()=>{operation++;plan={schema_version:1,title:'',requirements:[{id:'R01',text:'',source:{reference:'',locator:''}}],checks:[]};plan.checks.push(newCheck('R01'));invalidate('Plano em branco. Preencha fonte, procedimento e resultado esperado.');render();});
- $('import').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;operation++;const token=operation;invalidate('Importação em conferência. Nenhum resultado anterior pode ser exportado.');const importRevision=revision;try{if(file.size>LIMITS.jsonBytes)fail('JSON limitado a 1 MB.');const raw=await file.text();if(token!==operation||revision!==importRevision)fail('Plano mudou durante a importação. Tente novamente.');const candidate=parsePlan(raw);plan=candidate;invalidate('Plano importado. Status e hashes importados são declarações não autenticadas.');render();}catch(err){if(token===operation)reportError(err);}finally{e.target.value='';}});
+ $('import').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;operation++;const token=operation;invalidate('Importação em conferência. Nenhum resultado anterior pode ser exportado.');const importRevision=revision;try{if(file.size>LIMITS.jsonBytes)fail('JSON limitado a 1 MB.');const raw=await file.text();if(token!==operation||revision!==importRevision)fail('Plano mudou durante a importação. Tente novamente.');const candidate=parseWorkspaceFile(raw);plan=candidate.plan;invalidate(candidate.kind==='draft'?'Rascunho retomado. Campos podem estar incompletos; valide antes de exportar checklist.':'Plano importado. Status e hashes importados são declarações não autenticadas.');render();}catch(err){if(token===operation)reportError(err);}finally{e.target.value='';}});
  $('validate').addEventListener('click',()=>{invalidate('Conferindo estrutura do plano…');try{const snapshot=gate.validate(plan);const summary=summarize(snapshot);$('json-export').disabled=false;$('csv-export').disabled=false;$('validation-status').textContent='Estrutura válida. Isso não autentica o ensaio ou os arquivos.';result.append(el('h3',`${summary.requirements} requisitos · ${summary.checks} verificações`));const badges=el('div',undefined,'badges');for(const [status,count]of Object.entries(summary.declared_counts))badges.append(el('span',`${status}: ${count}`));result.append(badges,el('p','Todos os status são declarados. Execução autenticada: NÃO · Fontes autenticadas: NÃO.','small'));const table=el('table');const thead=el('thead'),hr=el('tr');for(const h of ['Verificação','Requisito','Status declarado','Arquivos referenciados'])hr.append(el('th',h));thead.append(hr);table.append(thead);const tbody=el('tbody');for(const c of snapshot.checks){const tr=el('tr');for(const v of [c.id,c.requirement_id,c.declared_status,String(c.evidence.length)])tr.append(el('td',v));tbody.append(tr);}table.append(tbody);const wrap=el('div',undefined,'table-wrap');wrap.append(table);result.append(wrap);}catch(e){reportError(e);}});
  function download(content,type,name){const url=URL.createObjectURL(new Blob([content],{type})),a=el('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+ $('draft-export').addEventListener('click',()=>{try{download(JSON.stringify(createDraft(plan),null,2)+'\n','application/json','poc-draft-unvalidated.json');$('validation-status').textContent='Rascunho salvo. Isso não valida o plano nem autentica os status.';}catch(e){reportError(e);}});
  $('json-export').addEventListener('click',()=>{if(!gate.available)return;try{const snapshot=gate.get();download(JSON.stringify(snapshot,null,2)+'\n','application/json','poc-plan-declared.json');}catch(e){reportError(e);}});
  $('csv-export').addEventListener('click',()=>{if(!gate.available)return;try{download(toCSV(gate.get()),'text/csv;charset=utf-8','poc-checklist-declared.csv');}catch(e){reportError(e);}});
  invalidate('Exemplo sintético: plano de ensaio, sem execução. Preencha ou valide para inspecionar.');render();

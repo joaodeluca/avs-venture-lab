@@ -9,3 +9,7 @@ Amostras sintéticas explicam uma falha histórica real do mecanismo anterior: r
 Fontes de desenho: [Anthropic](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents), [Temporal](https://temporal.io/blog/idempotency-and-durable-execution). São documentação pertinente, não provas de demanda.
 
 Os exemplos internos são ilustrações de diagnóstico, não experimento comercial nem novos casos de clientes.
+
+## Leitura local de sua entrega
+
+Em [readback.html](readback.html), prepare um contrato de FAQ (1–5 respostas), selecione contrato, referência e arquivo entregue e confira os bytes nesta aba. Há relatório JSON/HTML por download explícito. A conferência mostra igualdade exata, vínculo de tarefa/token e SHA-256, mantendo autenticidade, janela do filesystem e causalidade desconhecidas. Leia [formatos e limites](readback-README.md). O ensaio Python histórico permanece separado e preservado.
