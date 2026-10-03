@@ -56,3 +56,13 @@ A suíte confronta 25 casos sintéticos com `package/reconcile.py` via `python3`
 `test-guided.mjs` tem 27 testes focados na preparação: preservação de schemas/decimais, seis cenários confrontados com o Python original, estados de completude desconhecida/incompleta, datas/moedas independentes, estornos, parsing estrito, limites físicos de 10.000/10.001 registros, tamanho, campos e limite dos JSONs gerados. São testes puros do adaptador; não equivalem a execução do fluxo visual, autenticação de arquivos ou auditoria contábil.
 
 Sem comprador, pagamento, aceite, vantagem exclusiva, economia ou autonomia comercial demonstrados pela suíte.
+
+## Trilha por evento e dossiê para retomar
+
+O relatório v2 explica as linhas de cada medidor: ID do evento, uso/estorno, referência ao uso original, quantidade decimal original, horários UTC e motivo de inclusão/exclusão. Filtre por medidor ou busque IDs/referências; a tela pagina cem linhas por vez. A trilha usa as conclusões do motor existente, sem outro cálculo de faturamento. Não há valor por evento: arredondamento permanece por total de medidor. Se a base está bloqueada, nenhum evento recebe contribuição final; erros de esquema impedem até a classificação. Uma repetição idêntica é mostrada sem segunda contribuição.
+
+O HTML portátil reúne comparação, bloqueios, detalhes por medidor e relatório completo, com conteúdo escapado e sem scripts/conexões remotas. Os IDs e arquivos contêm dados declarados: remova informação sensível antes de compartilhar.
+
+“Baixar dossiê para retomar” salva `format: avs-usage-dossier`, `version: 1`, `report_version: 2`, com os três textos JSON **exatos** e o relatório arquivado. Limite agregado de dois MB; quando excedido, preserve entradas e relatório individualmente — nada é truncado. “Retomar dossiê” lê sem substituir imediatamente a página; exige confirmar a troca. Uma edição enquanto a leitura/retomada está pendente cancela esse candidato. O relatório anterior é ignorado para o cálculo e a conferência precisa ser acionada novamente. `complete:false` permanece falso; `complete:true` continua sendo declaração original, não validação externa. O parser restringe envelope, versões, campos e JSON duplicado; não comprova autenticidade do documento.
+
+Conferência finita: `node --test tools/revenue/test-dossier.mjs`, dez testes sobre inclusão/estorno, duplicação, corte, esquema incompleto, referências, retomada fiel, falsificação de resultado arquivado, limites e XSS. Não substitui teste visual do navegador ou auditoria de dados reais. O motor `reconcile.mjs` e o pacote Python não foram alterados nesta ampliação.

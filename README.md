@@ -1,6 +1,6 @@
 # AVS Venture Lab
 
-Five free local evidence utilities by João de Luca, built with AI assistance. Original code and small attributed public examples; no customer data, checkout or proprietary platform access. This repository is a technical toolkit, not the private venture study.
+Five free local workspaces by João de Luca, built with AI assistance. Original code and small attributed public examples; no customer data, checkout or proprietary platform access. This repository is a technical toolkit, not the private venture study.
 
 ## Tools
 
@@ -9,8 +9,8 @@ Five free local evidence utilities by João de Luca, built with AI assistance. O
 | POC / TraceBid — browser workspace + Python | `python3 tools/poc/run.py --dossier tools/poc/sample-dossier.json --out my-report` → HTML/JSON/CSV | Text/source hashes only; no system test or official approval. |
 | Catalog | CSV/JSON batch review, group conflicts and comparison at tools/catalog; downloadable Python renderer | Supplied facts/URLs are not authenticated. No substitution/merge approval. |
 | Linear billing | Guided contract/invoice + explicit event CSV; advanced JSON/reconciliation/reports; Python adapter at tools/revenue/package | Constant unit prices only; local normalized exports. No invoice correction/collection. |
-| Covenant | Prepare criteria and inspect selected FAQ bytes at tools/covenant/readback.html; original Python producer/readback preserved | Separate readback ignores worker receipt. Trusted local synthetic task/filesystem; no authenticated remote oracle. |
-| ExitForge | `python3 aggregate.py examples/input.json` inside the downloaded package | Local structural n8n JSON assessment + original append/tag example; neither universal converter nor migration equivalence. |
+| Covenant | Freeze finite criteria and inspect selected UTF-8/JSON bytes at tools/covenant/delivery-contract.html; FAQ-specific readback preserved; original Python producer/readback preserved | Separate readback ignores worker receipt. Trusted local synthetic task/filesystem; no authenticated remote oracle. |
+| ExitForge | `python3 aggregate.py examples/input.json` inside the downloaded package | Structural n8n assessment + bounded original literal-Set Python proposal; no runtime equivalence or universal conversion. |
 
 Open `index.html` through a static server (`python3 -m http.server 8773`) or use GitHub Pages after a successful deployment. Browser tools process input in memory, no app analytics/persistence/uploads; local Python runs on your own machine. Optional ExitForge HTTP example makes only explicitly supplied public GET requests. Hosting providers log requests under their own policy.
 
@@ -53,3 +53,13 @@ Five separate product descriptions live in solutions/. Product clarity and finit
 - ExitForge: `tools/exitforge/assessment/` flags structural blockers and runtime losses without executing a workflow. Reports omit parameter values.
 
 Read each tool README for formats and boundaries. Invalid inputs do not certify results. These are finite technical capabilities, not customer validation or companies in operation.
+
+## Portable deliveries
+
+- TraceBid: navigable planning/review gaps and escaped standalone HTML from draft or validated plan. Execution status remains declared.
+- Catalog: per-group/per-line decisions, justification and declared reference; original records preserved; hash-bound review package and portable HTML.
+- Billing: event/refund explanation with filtering, escaped detailed HTML and versioned input dossier. Import is staged, confirmed and recalculated; archived claims are ignored.
+- Covenant: up to five literal text, expected hash or JSON Pointer criteria fixed before selecting UTF-8 delivery. JSON/HTML reports distinguish PASS/FAIL/UNKNOWN; no universal or commercial acceptance. The FAQ-specific workspace remains separate.
+- ExitForge: eligible Set v3.4 with explicit retention generates a proposed original Python stdin/stdout transformer. The JS preview uses plain JSON objects. No original n8n runtime was executed; exported literals are deliberately present in code/plan.
+
+All are bounded technical tools. Tests and downloads are not paid demand, a measured commercial advantage or proof of autonomy. Read the individual limits before sharing any output.

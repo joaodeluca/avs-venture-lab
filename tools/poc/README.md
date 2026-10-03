@@ -31,3 +31,9 @@ Abra `workspace.html` em HTTPS ou localhost. “Salvar rascunho incompleto” ba
 Limites: 1 MB por JSON, cinco requisitos, vinte verificações, cinco referências de arquivo por verificação, vinte MB por arquivo vinculado. Rascunhos podem ter zero requisitos/verificações; o plano validado exige ao menos um de cada e procedimento/fonte/resultado esperado completos. Não há armazenamento automático, upload ou autosave: salve o JSON antes de fechar. Este formato do workspace é distinto do dossiê do programa Python; não há conversão automática entre eles.
 
 Verificação focada: `node --test tools/poc/test-workspace-roundtrip.mjs` na raiz do laboratório (Node com `node:test` e `structuredClone`). Os casos são sintéticos e não provam execução em produto, compatibilidade de todos os navegadores ou valor comercial.
+
+## Relatório portátil e pendências
+
+“Ver pendências do ensaio” mostra lacunas de preparação e itens de execução/revisão com links para os campos correspondentes. “Baixar relatório HTML” produz um documento independente, sem scripts ou recursos remotos, legível mesmo para um rascunho incompleto. Ele inclui fontes/localizações declaradas, procedimentos, resultados esperados, observações e nome/tamanho/SHA256 dos arquivos vinculados. Os arquivos de evidência não estão dentro do HTML.
+
+“Pronto para ensaiar” descreve somente estrutura completa; nunca promove NOT_EXECUTED a PASS. FAIL/UNKNOWN declarados aparecem para revisão. PASS sem referência de arquivo é destacado, sem presumir que a ausência de arquivo refute ou comprove o teste. Campos vazios conservam a condição de rascunho. Texto é escapado e referências externas ficam como texto, não links executáveis. O JSON original continua sendo o formato de retomada. Conferência finita: `node --test tools/poc/test-report.mjs` (cinco testes adicionais de preparação/pendências, declarações, XSS e colisões de IDs).

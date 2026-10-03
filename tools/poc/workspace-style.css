@@ -2,3 +2,4 @@
 
 /* Grid items may shrink when the validated report contains a wide table. */
 .review>div,.review-output,.fields-grid>.field{min-width:0}.table-wrap{max-width:100%}
+#readiness-output{padding:8px 0;overflow-wrap:anywhere}#readiness-output a{color:var(--accent,#116d61)}#readiness-output p{margin:8px 0}.requirement,.check{scroll-margin-top:30px}

@@ -13,3 +13,7 @@ Os exemplos internos são ilustrações de diagnóstico, não experimento comerc
 ## Leitura local de sua entrega
 
 Em [readback.html](readback.html), prepare um contrato de FAQ (1–5 respostas), selecione contrato, referência e arquivo entregue e confira os bytes nesta aba. Há relatório JSON/HTML por download explícito. A conferência mostra igualdade exata, vínculo de tarefa/token e SHA-256, mantendo autenticidade, janela do filesystem e causalidade desconhecidas. Leia [formatos e limites](readback-README.md). O ensaio Python histórico permanece separado e preservado.
+
+## Contrato de entrega para JSON ou texto
+
+Em [delivery-contract.html](delivery-contract.html), fixe até cinco critérios literais antes da tarefa e depois confira um arquivo UTF-8 de até 1 MiB: hash esperado, trecho exato, caminho JSON obrigatório e escalar exato. O contrato pode ser salvo/retomado e produz instruções e relatórios locais. Sem execução ou upload, sem aprender esperados da entrega. Confira [formatos e limites](delivery-contract-README.md). Correspondência permanece restrita aos critérios declarados; origem, identidade, cronologia e causalidade continuam desconhecidas. O checker FAQ permanece separado.
