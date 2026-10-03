@@ -63,3 +63,7 @@ Read each tool README for formats and boundaries. Invalid inputs do not certify 
 - ExitForge: eligible Set v3.4 with explicit retention generates a proposed original Python stdin/stdout transformer. The JS preview uses plain JSON objects. No original n8n runtime was executed; exported literals are deliberately present in code/plan.
 
 All are bounded technical tools. Tests and downloads are not paid demand, a measured commercial advantage or proof of autonomy. Read the individual limits before sharing any output.
+
+## Service preparation
+
+[Fechamento por consumo](https://joaodeluca.github.io/avs-venture-lab/billing-close/) is the V03 prelaunch service proposition: a defined period explained across contract, usage and invoice. Contracting, settlement and private delivery are unavailable. It is not another registered venture or an operating company.
