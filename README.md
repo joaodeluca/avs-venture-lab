@@ -8,7 +8,7 @@ Five free local workspaces by João de Luca, built with AI assistance. Original 
 |---|---|---|
 | POC / TraceBid — browser workspace + Python | `python3 tools/poc/run.py --dossier tools/poc/sample-dossier.json --out my-report` → HTML/JSON/CSV | Text/source hashes only; no system test or official approval. |
 | Catalog | CSV/JSON batch review, group conflicts and comparison at tools/catalog; downloadable Python renderer | Supplied facts/URLs are not authenticated. No substitution/merge approval. |
-| Linear billing | Guided contract/invoice + explicit event CSV; advanced JSON/reconciliation/reports; Python adapter at tools/revenue/package | Constant unit prices only; local normalized exports. No invoice correction/collection. |
+| Linear billing | Three-source CSV mapping and preserved originals; guided/JSON reconciliation; portable reports and offline recheck | Constant unit prices only; local normalized exports. No invoice correction/collection. |
 | Covenant | Freeze finite criteria and inspect selected UTF-8/JSON bytes at tools/covenant/delivery-contract.html; FAQ-specific readback preserved; original Python producer/readback preserved | Separate readback ignores worker receipt. Trusted local synthetic task/filesystem; no authenticated remote oracle. |
 | ExitForge | `python3 aggregate.py examples/input.json` inside the downloaded package | Structural n8n assessment + bounded original literal-Set Python proposal; no runtime equivalence or universal conversion. |
 
@@ -67,3 +67,9 @@ All are bounded technical tools. Tests and downloads are not paid demand, a meas
 ## Service preparation
 
 [Fechamento por consumo](https://joaodeluca.github.io/avs-venture-lab/billing-close/) is the V03 prelaunch service proposition: a defined period explained across contract, usage and invoice. Contracting, settlement and private delivery are unavailable. It is not another registered venture or an operating company.
+
+## Three-source billing intake
+
+[Open the local CSV workflow](https://joaodeluca.github.io/avs-venture-lab/tools/revenue/intake.html). Load three UTF-8 files, explicitly map human column names and declare common billing metadata. Original bytes, unused columns, conversion choices and SHA-256 are preserved in the downloaded local package. Unknown completeness blocks monetary conclusions. This is bounded linear reconciliation, not a native Stripe/Orb adapter or an operating billing service. Read [INTAKE.md](tools/revenue/INTAKE.md).
+
+The new intake source and recheck CLI are available in tools/revenue/. Earlier downloads/all-tools.zip and downloads/v03.zip retain their previously documented versions and do not contain this new intake; no updated ZIP compatibility is claimed.
