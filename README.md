@@ -1,3 +1,5 @@
+> **Archived business proposals — 4 October 2026.** These five prototypes have been withdrawn from the business selection. Code remains available for technical inspection. No operating companies, paid demand or accepted customer deliveries are claimed. See [ARCHIVE.md](ARCHIVE.md).
+
 # AVS Venture Lab
 
 Five free local workspaces by João de Luca, built with AI assistance. Original code and small attributed public examples; no customer data, checkout or proprietary platform access. This repository is a technical toolkit, not the private venture study.
@@ -20,17 +22,9 @@ Download individual ZIPs in downloads/ or all-tools.zip. Extract a package befor
 
 Use public or fictional examples in repository issues. Never send private exports, names/emails, phone numbers, credentials, payment records or customer information. A reference/hash is not independent proof. Code inspection and constructed tests demonstrate only the stated recuts.
 
-## Related commissioned-work scope enquiries
+## Archived business proposals
 
-The five utilities correspond to five separate exploratory service scopes below. These are **informative references, not available contracts or payment requests**: contracting and settlement are not enabled. Scope and deadline must be agreed after checking inputs. AI agents perform work; João de Luca is the accountable owner. No full human review or prior customer experience is claimed.
-
-- **Ensaio de POC** — Até cinco requisitos, ensaio autorizado e uma reexecução; aprovação oficial não incluída. Initial reference BRL 490. [Discuss scope](https://github.com/joaodeluca/avs-venture-lab/issues/new?template=service-scope-v01.yml).
-- **Catálogo documental** — Até vinte registros, fontes por campo, divergências e desconhecidos; sem homologação. Initial reference BRL 490. [Discuss scope](https://github.com/joaodeluca/avs-venture-lab/issues/new?template=service-scope-v02.yml).
-- **Faturamento linear** — Um período de até31dias e10mil eventos normalizados; sem recuperação garantida ou cobrança. Initial reference BRL 299. [Discuss scope](https://github.com/joaodeluca/avs-venture-lab/issues/new?template=service-scope-v03.yml).
-- **Covenant** — Até cinco critérios e vinte casos de aceite; sem oráculo ou garantia de resultado. Initial reference BRL 790. [Discuss scope](https://github.com/joaodeluca/avs-venture-lab/issues/new?template=service-scope-v04.yml).
-- **ExitForge** — Até oito nós determinísticos em Python; sem OAuth/escrita/dashboard/scheduler/estado durável. Initial reference BRL 1,490. [Discuss scope](https://github.com/joaodeluca/avs-venture-lab/issues/new?template=service-scope-v05.yml).
-
-Only a pertinent independent response is an enquiry. Publication, repository visits, own tests and technical comments are not purchases, paid demand or accepted deliveries.
+The five exploratory service proposals were withdrawn on 4 October 2026. Their code remains available as a technical archive; no related contracts or payments are available. Former scope templates have been archived and no longer appear as current enquiry options. The historical Git commits preserve the previous descriptions and hypothetical prices. [Archive notice](ARCHIVE.md).
 
 ## Attribution
 
